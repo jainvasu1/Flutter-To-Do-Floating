@@ -1,17 +1,27 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'features/splash/presentation/screens/splash_screen.dart';
+
 void main() {
-  runApp(const MyApp());
+  // The animated splash is for phones only; on desktop the window opens straight to the list.
+  final isMobile =
+      !kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.android ||
+          defaultTargetPlatform == TargetPlatform.iOS);
+  runApp(MyApp(showSplash: isMobile));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, this.showSplash = false});
+
+  final bool showSplash;
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'TO DO',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -30,7 +40,9 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: showSplash
+          ? const SplashScreen(next: MyHomePage(title: 'Flutter Demo Home Page'))
+          : const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
